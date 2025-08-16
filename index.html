@@ -3,16 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fattoria Animali</title>
+    <meta name="description" content="Fattoria degli Animali - Un'esperienza interattiva educativa per bambini con suoni e animazioni">
+    <meta name="keywords" content="fattoria, animali, bambini, educativo, suoni, gioco">
+    <meta name="author" content="Fattoria Educativa">
+    <title>🌾 Fattoria degli Animali - Impara Giocando! 🐄</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐄</text></svg>">
 </head>
 <body>
-    <h1>Fattoria degli Animali</h1>
-    <label class="switch">
-      <input type="checkbox" id="langSwitch">
-      <span class="slider"></span>
-      <span id="switchLabel">Italiano</span>
-    </label>
+    <div class="header">
+        <h1>🌾 Fattoria degli Animali 🐄</h1>
+        <p class="subtitle">Clicca sugli animali per sentire i loro versi!</p>
+        <label class="switch">
+          <input type="checkbox" id="langSwitch">
+          <span class="slider"></span>
+          <span id="switchLabel">Italiano</span>
+        </label>
+    </div>
     <div id="animal-buttons" class="grid"></div>
     <script src="script.js"></script>
 </body>

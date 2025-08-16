@@ -31,11 +31,87 @@ const animals = [
   {it: 'Tartaruga', en: 'Turtle', img: 'img/turtle.png', sound: 'sounds/turtle.mp3'},
   {it: 'Balena', en: 'Whale', img: 'img/whale.png', sound: 'sounds/whale.wav'},
   {it: 'Delfino', en: 'Dolphin', img: 'img/dolphin.png', sound: 'sounds/dolphin.wav'},
-  {it: 'Serpente', en: 'Snake', img: 'img/snake.png', sound: 'sounds/snake.wav'},
+  {it: 'Serpente', en: 'Snake', img: 'img/snake.png', sound: 'sounds/snake.mp3'},
   {it: 'Ape', en: 'Bee', img: 'img/bee.png', sound: 'sounds/bee.mp3'},
 ];
 
 let currentLang = 'it';
+
+// Crea particelle animate di sfondo
+function createParticles() {
+  const particlesContainer = document.createElement('div');
+  particlesContainer.className = 'particles';
+  document.body.appendChild(particlesContainer);
+  
+  for (let i = 0; i < 50; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    particle.style.left = Math.random() * 100 + '%';
+    particle.style.animationDelay = Math.random() * 15 + 's';
+    particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+    particlesContainer.appendChild(particle);
+  }
+}
+
+// Crea effetto sonoro visivo
+function createSoundEffect(btn) {
+  const effect = document.createElement('div');
+  effect.className = 'sound-effect';
+  btn.appendChild(effect);
+  
+  setTimeout(() => {
+    if (effect.parentNode) {
+      effect.parentNode.removeChild(effect);
+    }
+  }, 600);
+}
+
+// Crea effetti di coriandoli quando si clicca un bottone
+function createConfetti(btn) {
+  const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#ff9ff3'];
+  const rect = btn.getBoundingClientRect();
+  
+  for (let i = 0; i < 10; i++) {
+    const confetti = document.createElement('div');
+    confetti.style.position = 'fixed';
+    confetti.style.width = '6px';
+    confetti.style.height = '6px';
+    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    confetti.style.left = (rect.left + rect.width / 2) + 'px';
+    confetti.style.top = (rect.top + rect.height / 2) + 'px';
+    confetti.style.pointerEvents = 'none';
+    confetti.style.borderRadius = '50%';
+    confetti.style.zIndex = '1000';
+    
+    document.body.appendChild(confetti);
+    
+    const angle = (Math.random() * 360) * Math.PI / 180;
+    const velocity = Math.random() * 150 + 50;
+    const gravity = 300;
+    
+    let x = 0;
+    let y = 0;
+    let vx = Math.cos(angle) * velocity;
+    let vy = Math.sin(angle) * velocity;
+    
+    const animate = () => {
+      x += vx * 0.016;
+      y += vy * 0.016;
+      vy += gravity * 0.016;
+      
+      confetti.style.transform = `translate(${x}px, ${y}px)`;
+      confetti.style.opacity = Math.max(0, 1 - y / 300);
+      
+      if (y < 300 && confetti.parentNode) {
+        requestAnimationFrame(animate);
+      } else if (confetti.parentNode) {
+        confetti.parentNode.removeChild(confetti);
+      }
+    };
+    
+    requestAnimationFrame(animate);
+  }
+}
 
 function renderButtons() {
   const container = document.getElementById('animal-buttons');
@@ -46,6 +122,8 @@ function renderButtons() {
     btn.innerHTML = `<img src="${animal.img}" alt="${animal[currentLang]}" class="animal-img"><span>${animal[currentLang]}</span>`;
     btn.onclick = () => {
       btn.classList.add('selected');
+      createSoundEffect(btn);
+      createConfetti(btn);
       playSound(animal.sound, btn);
     };
     container.appendChild(btn);
@@ -54,10 +132,20 @@ function renderButtons() {
 
 function playSound(soundPath, btn) {
   const audio = new Audio(soundPath);
-  audio.play();
+  audio.volume = 0.7; // Volume al 70%
+  
+  audio.play().catch(error => {
+    console.log('Errore nella riproduzione audio:', error);
+  });
+  
   audio.onended = () => {
     if (btn) btn.classList.remove('selected');
   };
+  
+  // Fallback nel caso l'audio non finisca
+  setTimeout(() => {
+    if (btn) btn.classList.remove('selected');
+  }, 3000);
 }
 
 document.getElementById('langSwitch').addEventListener('change', function() {
@@ -66,4 +154,22 @@ document.getElementById('langSwitch').addEventListener('change', function() {
   renderButtons();
 });
 
-window.onload = renderButtons;
+// Inizializza l'applicazione
+window.onload = () => {
+  createParticles();
+  renderButtons();
+  
+  // Aggiungi un titolo dinamico
+  const title = document.querySelector('h1');
+  const messages = {
+    it: ['🌾 Fattoria degli Animali 🐄', '🎵 Ascolta i loro versi! 🎵', '🌈 Divertiti e impara! 🌈'],
+    en: ['🌾 Animal Farm 🐄', '🎵 Listen to their sounds! 🎵', '🌈 Have fun and learn! 🌈']
+  };
+  
+  let messageIndex = 0;
+  
+  setInterval(() => {
+    title.textContent = messages[currentLang][messageIndex];
+    messageIndex = (messageIndex + 1) % messages[currentLang].length;
+  }, 4000);
+};
