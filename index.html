@@ -10,7 +10,16 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐄</text></svg>">
+    
+    <!-- Meta per PWA -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Fattoria Animali">
+    <meta name="msapplication-TileColor" content="#667eea">
+    <meta name="msapplication-TileImage" content="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 144 144'><rect width='144' height='144' fill='%23667eea'/><text x='72' y='100' font-size='90' text-anchor='middle' fill='white'>🐄</text></svg>">
 </head>
 <body>
     <div class="header">
@@ -23,6 +32,11 @@
         </label>
     </div>
     <div id="animal-buttons" class="grid"></div>
+    
+    <footer class="footer">
+        <p>💝 Fatto da un papà innamorato 💝</p>
+    </footer>
+    
     <script src="script.js"></script>
 </body>
 </html>

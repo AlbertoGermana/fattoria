@@ -172,4 +172,26 @@ window.onload = () => {
     title.textContent = messages[currentLang][messageIndex];
     messageIndex = (messageIndex + 1) % messages[currentLang].length;
   }, 4000);
+  
+  // Registra il Service Worker per PWA
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('./sw.js')
+        .then(function(registration) {
+          console.log('Service Worker registrato con successo:', registration.scope);
+        })
+        .catch(function(error) {
+          console.log('Registrazione Service Worker fallita:', error);
+        });
+    });
+  }
+  
+  // Gestione parametri URL per shortcuts
+  const urlParams = new URLSearchParams(window.location.search);
+  const langParam = urlParams.get('lang');
+  if (langParam === 'en') {
+    document.getElementById('langSwitch').checked = true;
+    currentLang = 'en';
+    document.getElementById('switchLabel').textContent = 'English';
+  }
 };

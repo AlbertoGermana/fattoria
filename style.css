@@ -3,12 +3,41 @@
 body {
     font-family: 'Nunito', sans-serif;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
     margin: 0;
     padding: 0;
     text-align: center;
     min-height: 100vh;
     position: relative;
     overflow-x: hidden;
+}
+
+/* Fallback per dispositivi mobili che non supportano background-attachment: fixed */
+@supports not (background-attachment: fixed) {
+    body {
+        background-attachment: scroll;
+    }
+}
+
+/* Fix specifico per dispositivi iOS */
+@media (max-width: 768px) {
+    body {
+        background-attachment: scroll;
+        background-size: 100% 100%;
+    }
+    
+    body::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        z-index: -2;
+    }
 }
 
 /* Sfondo animato con pattern di fattoria */
@@ -33,7 +62,7 @@ h1 {
     font-family: 'Fredoka One', cursive;
     font-size: 3rem;
     color: #fff;
-    text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    text-shadow: 0 4px 8px rgba(255,255,255,0.3);
     margin: 30px 0 10px 0;
     animation: bounce 2s ease-in-out infinite;
     background: linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
@@ -238,6 +267,27 @@ h1 {
     letter-spacing: 1px;
 }
 
+.footer {
+    margin-top: 40px;
+    padding: 20px;
+    text-align: center;
+}
+
+.footer p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1rem;
+    font-weight: 600;
+    font-style: italic;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    margin: 0;
+    animation: heartbeat 2s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+    0%, 50%, 100% { transform: scale(1); }
+    25%, 75% { transform: scale(1.05); }
+}
+
 /* Effetti sonori visivi */
 @keyframes soundWave {
     0% { transform: scale(1); opacity: 1; }
@@ -349,6 +399,15 @@ h1 {
     #switchLabel {
         font-size: 1rem;
     }
+    
+    .footer {
+        margin-top: 30px;
+        padding: 15px;
+    }
+    
+    .footer p {
+        font-size: 0.9rem;
+    }
 }
 
 @media (max-width: 400px) {
@@ -401,5 +460,14 @@ h1 {
     
     #switchLabel {
         font-size: 0.9rem;
+    }
+    
+    .footer {
+        margin-top: 20px;
+        padding: 10px;
+    }
+    
+    .footer p {
+        font-size: 0.8rem;
     }
 }
